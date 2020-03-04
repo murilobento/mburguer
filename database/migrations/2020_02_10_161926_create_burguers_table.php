@@ -19,6 +19,7 @@ class CreateBurguersTable extends Migration
             $table->text('desc');
             $table->double('preco', 10, 2);
             $table->string('imagem')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

@@ -15,6 +15,11 @@ class CreateExtrasTable extends Migration
     {
         Schema::create('extras', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nome')->unique;
+            $table->text('desc');
+            $table->text('tipo');
+            $table->double('preco', 10, 2);
+            $table->string('imagem')->nullable();
             $table->timestamps();
         });
     }

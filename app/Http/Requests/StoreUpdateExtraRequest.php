@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateBurguerRequest extends FormRequest
+class StoreUpdateExtraRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +25,11 @@ class StoreUpdateBurguerRequest extends FormRequest
     {
         $id = $this->segment(2);
         return [
-            'nome' => "required|min:3|max:30|unique:burguers,nome,{$id},id",
+            'nome' => "required|min:3|max:30|unique:extras,nome,{$id},id",
             'desc' => 'required|min:3|max:10000',
+            'tipo' => 'required',
             'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:JPG,jpeg,PNG',
-            'status' => 'required|numeric|min:0|max:1'
+            'imagem' => 'nullable|image|mimes:JPG,jpeg,PNG'
         ];
     }
     public function messages()
@@ -44,15 +44,14 @@ class StoreUpdateBurguerRequest extends FormRequest
             'desc.required' => 'A descrição é obrigatório!',
             'desc.min' => 'Descrição deve conter no mínimo 3 caracteres!',
             'desc.max' => 'Descrição deve conter no máximo 10.000 caracteres!',
+            //tipo
+            'tipo.required' => 'O preço é obrigatório!',
             //preço
             'preco.required' => 'O preço é obrigatório!',
             'preco.numeric' => 'O campo preço aceita somente números!',
             //imagem
             'imagem.mimes' => 'A imagem deve ser um arquivo do tipo: jpg, jpeg, ou png.',
             'imagem.image' => 'O arquivo deve ser uma imagem',
-            //status
-            'status.min' => 'O status deve ser Ativo¹ ou Inativo⁰.',
-            'status.max' => 'O status deve ser Ativo¹ ou Inativo⁰.',
         ];
     }
 }

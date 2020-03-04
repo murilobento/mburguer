@@ -8,5 +8,5 @@ class Burguer extends Model
 {
     protected $table = 'burguers';
 
-    protected $fillable = ['nome', 'desc', 'preco', 'imagem'];
+    protected $fillable = ['nome', 'desc', 'preco', 'imagem', 'status'];
 }

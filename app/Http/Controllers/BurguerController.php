@@ -9,13 +9,17 @@ use App\Http\Requests\StoreUpdateBurguerRequest;
 use Redirect;
 use Illuminate\Support\Facades\Session;
 use DB;
+use Illuminate\Support\Facades\Storage;
 
 class BurguerController extends Controller
 {
+    protected $request;
+    private $repository;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Burguer $burguer)
     {
         $this->request = $request;
+        $this->repository = $burguer;
 
         $this->middleware('auth');
     }
@@ -26,8 +30,17 @@ class BurguerController extends Controller
      */
     public function index()
     {
-        $burguers = Burguer::orderBy('nome')->paginate(15);
-
+        $burguers = Burguer::where('status',1)->orderBy('nome')->paginate(15);
+        return view('burguer.list', ['burguers' => $burguers]);
+    }
+     /**
+     * Display a listing of the inactive resource .
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inactive()
+    {
+        $burguers = Burguer::where('status',0)->orderBy('nome')->paginate(15);
         return view('burguer.list', ['burguers' => $burguers]);
     }
 
@@ -49,18 +62,12 @@ class BurguerController extends Controller
      */
     public function store(StoreUpdateBurguerRequest $request)
     {
-        $b = new Burguer();
-        $b->nome = $request->input('nome');
-        $b->desc = $request->input('desc');
-        $b->preco = $request->input('preco');
-        if($request->hasfile('imagem')){
-            $file = $request->file('imagem');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $ext;
-            $file->move('uploads/burguers', $filename);
-            $b->imagem = $filename;
+        $data = $request->all();
+        if ($request->hasFile('imagem') && $request->imagem->isValid()){
+            $path = $request->imagem->store('burguers');
+            $data['imagem'] = $path;
         }
-        $b->save();
+        Burguer::create($data);
         Session::flash('mensagem_sucesso', 'Burguer cadastrado com sucesso!');
         return redirect()->route('burguer.index');        
     }
@@ -100,23 +107,21 @@ class BurguerController extends Controller
      */
     public function update(StoreUpdateBurguerRequest $request, $id)
     {
-        $burguer = Burguer::where('id', $id)->first();
-        if (!$burguer) {
-            return redirect()->route('burguer.index');
+        if(!$burguer = $this->repository->find($id)){
+            return redirect()->back();
         }
-        $burguer->nome = $request->input('nome');
-        $burguer->desc = $request->input('desc');
-        $burguer->preco = $request->input('preco');
-        if($request->hasfile('imagem')){
-            $file = $request->file('imagem');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $ext;
-            $file->move('uploads/burguers', $filename);
-            $burguer->imagem = $filename;
+        $data = $request->all();      
+        
+        if ($request->hasFile('imagem') && $request->imagem->isValid()){
+            if ($burguer->imagem && Storage::exists($burguer->imagem)) {
+                Storage::delete($burguer->imagem);
+            }
+            $path = $request->imagem->store('burguers');
+            $data['imagem'] = $path;
         }
-        $burguer->save();
+        $burguer->update($data);
         Session::flash('mensagem_sucesso', 'Burguer editado com sucesso!');
-        return redirect()->route('burguer.index');
+        return redirect()->route('burguer.index');   
     }
 
     /**
@@ -127,9 +132,12 @@ class BurguerController extends Controller
      */
     public function destroy($id)
     {
-        $burguer = Burguer::where('id', $id)->first();
-        if (!$burguer) {
+        $burguer = $this->repository->where('id', $id)->first();
+        if(!$burguer){
             return redirect()->back();
+        }
+        if ($burguer->imagem && Storage::exists($burguer->imagem)) {
+            Storage::delete($burguer->imagem);
         }
         $burguer->delete();
         Session::flash('mensagem_sucesso', 'Burguer excluído com sucesso!');

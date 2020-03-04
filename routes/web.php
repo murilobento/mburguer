@@ -21,15 +21,10 @@ Route::middleware('auth')->group(function () {
         return redirect('login');
     });
     Route::get('/home', 'HomeController@index')->name('home');
-
-    /*BURGUER
-    Route::get('burguer/add', 'BurguerController@create');
-    Route::post('burguer/salvar', 'BurguerController@save');
-    Route::get('burguer/', 'BurguerController@index');
-    Route::get('burguer/{id}/editar', 'BurguerController@edit');
-    Route::patch('burguer/{id}', 'BurguerController@update');
-    Route::delete('burguer/{id}', 'BurguerController@delete');*/
+    Route::get('/burguer/inactive', 'BurguerController@inactive')->name('burguer.inactive');
+    
 });
 Route::resource('burguer', 'BurguerController');
+Route::resource('extra', 'ExtraController');
 
 Auth::routes();

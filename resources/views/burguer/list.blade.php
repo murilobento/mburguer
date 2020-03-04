@@ -18,9 +18,26 @@
 
                 <!--add msg sucesso-->
                 @include('layouts.sucesso')
+                @if(Request::is('*/inactive'))
+                <h5 class="header-title">Listagem de Burguers Inativos</h5>
+                <p class="text-muted">Cadastrar um novo burguer, <a href="{{ route('burguer.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver os burguers ativos, <a href="{{ route('burguer.index') }}">clique aqui. </a></p>
+                @else
+                <h5 class="header-title">Listagem de Burguers Ativos</h5>
+                <p class="text-muted">Cadastrar um novo burguer, <a href="{{ route('burguer.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver os burguers inativos, <a href="{{ route('burguer.inactive') }}">clique aqui.</a> </p>
+                @endif
 
-                <h5 class="header-title">Listagem de Burguers</h5>
-                <p class="text-muted">Para cadastrar um novo burguer, <a href="{{ route('burguer.create') }}">clique aqui. </a> </p>                
+                @if (count($burguers) === 0)
+                <div class="">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <h4 class="alert-heading font-18">Nenhum registro foi encontrado.</h4>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                @else
+
                 <div class="table-rep-plugin">
                     <div class="table-responsive b-0" data-pattern="priority-columns">
                         <table id="tech-companies-1" class="table  table-striped">
@@ -35,13 +52,12 @@
                             <tbody>
                                 @foreach ($burguers as $burguer)
                                 <tr>
-                                    
-                                    <td><a href="{{ route('burguer.edit', $burguer->id) }}"">
-                                            {{ $burguer->nome }} 
-                                        </a>
+
+                                <td><a href="{{ route('burguer.edit', $burguer->id) }}"
+                                    title="{{ $burguer->nome }}">{{ $burguer->nome }}</a>
                                     </td>
                                     <td>{{ $burguer->preco }}</td>
-                                    <td>
+                                    <td>                                        
                                         <a class="btn btn-success" href="{{ route('burguer.edit', $burguer->id) }}"
                                             role="button"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:;" data-toggle="modal"
@@ -87,7 +103,7 @@
                         {!! $burguers->links() !!}
                     </div>
                 </div>
-
+                @endif
             </div>
         </div>
     </div>
@@ -95,7 +111,7 @@
 <!--end row-->
 @push('script')
 
-//modal
+<!--MODAL-->
 <script type="text/javascript">
     function deleteData(id)
     {
@@ -111,7 +127,7 @@
     }
 </script>
 
-//mensagem de sucesso
+<!--FECHAR O ALERT DE MSG DE SUCESSO-->
 <script>
     window.setTimeout(function () {
         $(".alert-success").fadeTo(300, 0).slideUp(300, function () {

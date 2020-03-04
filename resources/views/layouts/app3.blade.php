@@ -66,8 +66,8 @@
                                 <span> Cadastros </span> <span class="float-right"><i
                                         class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="{{ route('burguer.create') }}">Burguers</a></li>
-                                <li><a href="{{ url('/extra/create') }}">Extras</a></li>
+                                <li><a href="{{ route('burguer.index') }}">Burguers</a></li>
+                                <li><a href="{{ route('extra.index') }}">Extras</a></li>
                             </ul>
                         </li>
 
@@ -114,12 +114,11 @@
                                 <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user"
                                     data-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                     aria-expanded="false">
-                                    <img src="{{asset('/images/users/avatar-1.jpg')}}" alt="user"
-                                        class="rounded-circle">
+                                    <i class="text-white">Logado com: {{ Auth::user()->name }}</i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                                     <!-- item-->
-                                    <a class="dropdown-item" href="#"><i
+                                    <a class="dropdown-item" href=""><i
                                             class="mdi mdi-account-circle m-r-5 text-muted"></i> Meu Perfil</a>
                                     <a class="dropdown-item" href="#"><i class="mdi mdi-settings m-r-5 text-muted"></i>
                                         Configurações</a>

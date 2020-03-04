@@ -1,6 +1,7 @@
 <?php
 
 use App\Burguer;
+use App\Extra;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
        $this->call(UsersTableSeeder::class);
        $this->call(BurguersTableSeeder::class);
+       $this->call(ExtrasTableSeeder::class);
+
         
     }
 }

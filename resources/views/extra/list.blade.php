@@ -1,5 +1,7 @@
 @extends('layouts.app3')
 
+@section('title', 'Lista de Extras')
+
 @section('content')
 <div class="row">
     <div class="col-sm-12">
@@ -13,74 +15,112 @@
     <div class="col-lg-12 col-sm-12">
         <div class="card m-b-30">
             <div class="card-body table-responsive">
+
+                <!--add msg sucesso-->
+                @include('layouts.sucesso')
+
                 <h5 class="header-title">Listagem de Extras</h5>
-                <p class="text-muted">Para visualisar os detalhes, clique sobre o nome do extra. </p>
-                <div class="">
-                    <table id="datatable2" class="table">
-                        <thead>
-                            <tr>
-                                <th width="10%">ID</th>
-                                <th width="20%">Tipo</th>
-                                <th width="50%">Nome</th>
-                                <th width="10%">Preço</th>
-                                <th width="10%">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Acompanhamento</td>
-                                <td><a href="{{ url('/ver/extra/1') }}">Batata Rústica</a></td>
-                                <td>10,00</td>
-                                <td> <a href="{{ url('/edit/extra/1') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/1') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Suco</td>
-                                <td><a href="{{ url('/ver/extra/2') }}">Suco de Laranja</a></td>
-                                <td>7,00</td>
-                                <td> <a href="{{ url('/edit/extra/2') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/2') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Adicional</td>
-                                <td><a href="{{ url('/ver/extra/3') }}">Bacon</a></td>
-                                <td>5,00</td>
-                                <td> <a href="{{ url('/edit/extra/3') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/3') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Drink</td>
-                                <td><a href="{{ url('/ver/extra/4') }}">Cuba Libre</a></td>
-                                <td>12,00</td>
-                                <td> <a href="{{ url('/edit/extra/4') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/4') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Cerveja</td>
-                                <td><a href="{{ url('/ver/extra/5') }}">Long Neck Becks 350ml</a></td>
-                                <td>8,00</td>
-                                <td> <a href="{{ url('/edit/extra/5') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/5') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Refrigerante</td>
-                                <td><a href="{{ url('/ver/extra/6') }}">Coca Coca Zero 350ml</a></td>
-                                <td>5,00</td>
-                                <td> <a href="{{ url('/edit/extra/6') }}"><i class="fa fa-edit"></i></a>   <a
-                                        href="{{ url('/del/extra/6') }}"><i class="fa fa-trash"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <p class="text-muted">Para cadastrar um novo extra, <a href="{{ route('extra.create') }}">clique aqui. </a> </p>                
+                <div class="table-rep-plugin">
+                    <div class="table-responsive b-0" data-pattern="priority-columns">
+                        <table id="tech-companies-1" class="table  table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th data-priority="1">Tipo</th>
+                                    <th data-priority="2">Preço</th>
+                                    <th data-priority="3">Ações</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($extras as $extra)
+                                <tr>
+                                    
+                                    <td><a href="{{ route('extra.edit', $extra->id) }}">
+                                            {{ $extra->nome }} 
+                                        </a>
+                                    </td>
+                                    <td>{{ $extra->tipo }}</td>
+                                    <td>{{ $extra->preco }}</td>
+                                    <td>
+                                        <a class="btn btn-success" href="{{ route('extra.edit', $extra->id) }}"
+                                            role="button"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="javascript:;" data-toggle="modal"
+                                            onclick="deleteData({{$extra->id}})" data-target="#DeleteModal"
+                                            class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i> </a>
+                                        <div id="DeleteModal" class="modal fade " tabindex="-1" role="dialog"
+                                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <form action="{{ route('extra.destroy', $extra->id) }}"
+                                                    id="deleteForm" method="post">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title mt-0" id="myLargeModalLabel"><i
+                                                                    class='fas fa-exclamation-circle'></i> CUIDADO!</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {{ csrf_field() }}
+                                                            {{ method_field('DELETE') }}
+                                                            <p class="text-center">Tem certeza de que deseja excluir?
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer ">
+                                                            <button type="button" class="btn btn-success"
+                                                                data-dismiss="modal">Cancelar</button>
+                                                            <button type="submit" name="" class="btn btn-danger"
+                                                                data-dismiss="modal" onclick="formSubmit()">Sim,
+                                                                excluir.</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {!! $extras->links() !!}
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 <!--end row-->
+@push('script')
+
+<!--MODAL-->
+<script type="text/javascript">
+    function deleteData(id)
+    {
+        var id = id;
+        var url = '{{ route("extra.destroy", ":id") }}';
+        url = url.replace(':id', id);
+        $("#deleteForm").attr('action', url);
+    }
+
+    function formSubmit()
+    {
+        $("#deleteForm").submit();
+    }
+</script>
+
+<!--FECHAR O ALERT DE MSG DE SUCESSO-->
+<script>
+    window.setTimeout(function () {
+        $(".alert-success").fadeTo(300, 0).slideUp(300, function () {
+            $(this).remove();
+        });
+    }, 3000);            
+</script>
+
+@endpush
 @endsection
