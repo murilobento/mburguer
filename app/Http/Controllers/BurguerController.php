@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Burguer;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Requests\StoreUpdateBurguerRequest;
-use Redirect;
 use Illuminate\Support\Facades\Session;
-use DB;
 use Illuminate\Support\Facades\Storage;
 
 class BurguerController extends Controller

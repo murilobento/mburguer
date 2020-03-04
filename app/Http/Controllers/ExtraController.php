@@ -6,12 +6,17 @@ use App\Extra;
 use App\Http\Requests\StoreUpdateExtraRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ExtraController extends Controller
 {
-    public function __construct(Request $request)
+    protected $request;
+    private $repository;
+
+    public function __construct(Request $request, Extra $extra)
     {
         $this->request = $request;
+        $this->repository = $extra;
 
         $this->middleware('auth');
     }
@@ -22,9 +27,19 @@ class ExtraController extends Controller
      */
     public function index()
     {
-        $extras = Extra::orderBy('tipo')->paginate(15);
-
+        $extras = Extra::where('status',1)->orderBy('nome')->paginate(15);
         return view('extra.list', ['extras' => $extras]);
+    }
+     /**
+     * Display a listing of the inactive resource .
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inactive()
+    {
+        $extras = Extra::where('status',0)->orderBy('nome')->paginate(15);
+        return view('extra.list', ['extras' => $extras]);
+
     }
 
     /**
@@ -46,21 +61,14 @@ class ExtraController extends Controller
     public function store(StoreUpdateExtraRequest $request)
     {
 
-        $e = new Extra();
-        $e->nome = $request->input('nome');
-        $e->desc = $request->input('desc');
-        $e->tipo = $request->input('tipo');
-        $e->preco = $request->input('preco');
-        if($request->hasfile('imagem')){
-            $file = $request->file('imagem');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $ext;
-            $file->move('uploads/extras', $filename);
-            $e->imagem = $filename;
+        $data = $request->all();
+        if ($request->hasFile('imagem') && $request->imagem->isValid()){
+            $path = $request->imagem->store('extras');
+            $data['imagem'] = $path;
         }
-        $e->save();
+        Extra::create($data);
         Session::flash('mensagem_sucesso', 'Extra cadastrado com sucesso!');
-        return redirect()->route('extra.index');   
+        return redirect()->route('extra.index'); 
     }
 
     /**
@@ -98,24 +106,21 @@ class ExtraController extends Controller
      */
     public function update(StoreUpdateExtraRequest $request, $id)
     {
-        $extra = Extra::where('id', $id)->first();
-        if (!$extra) {
-            return redirect()->route('extra.index');
+        if (!$extra = $this->repository->find($id)){
+            return redirect()->back();
         }
-        $extra->nome = $request->input('nome');
-        $extra->desc = $request->input('desc');
-        $extra->tipo = $request->input('tipo');
-        $extra->preco = $request->input('preco');
-        if($request->hasfile('imagem')){
-            $file = $request->file('imagem');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $ext;
-            $file->move('uploads/extras', $filename);
-            $extra->imagem = $filename;
+        $data = $request->all();      
+        
+        if ($request->hasFile('imagem') && $request->imagem->isValid()){
+            if ($extra->imagem && Storage::exists($extra->imagem)) {
+                Storage::delete($extra->imagem);
+            }
+            $path = $request->imagem->store('extras');
+            $data['imagem'] = $path;
         }
-        $extra->save();
+        $extra->update($data);
         Session::flash('mensagem_sucesso', 'Extra editado com sucesso!');
-        return redirect()->route('extra.index');
+        return redirect()->route('extra.index');   
     }
 
     /**
@@ -126,9 +131,12 @@ class ExtraController extends Controller
      */
     public function destroy($id)
     {
-        $extra = Extra::where('id', $id)->first();
-        if (!$extra) {
+        $extra = $this->repository->where('id', $id)->first();
+        if(!$extra){
             return redirect()->back();
+        }
+        if ($extra->imagem && Storage::exists($extra->imagem)) {
+            Storage::delete($extra->imagem);
         }
         $extra->delete();
         Session::flash('mensagem_sucesso', 'Extra excluído com sucesso!');

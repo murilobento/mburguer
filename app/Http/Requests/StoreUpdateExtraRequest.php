@@ -29,7 +29,8 @@ class StoreUpdateExtraRequest extends FormRequest
             'desc' => 'required|min:3|max:10000',
             'tipo' => 'required',
             'preco' => 'required|numeric',
-            'imagem' => 'nullable|image|mimes:JPG,jpeg,PNG'
+            'imagem' => 'nullable|image|mimes:JPG,jpeg,PNG',
+            'status' => 'required|numeric|min:0|max:1'
         ];
     }
     public function messages()
@@ -52,6 +53,9 @@ class StoreUpdateExtraRequest extends FormRequest
             //imagem
             'imagem.mimes' => 'A imagem deve ser um arquivo do tipo: jpg, jpeg, ou png.',
             'imagem.image' => 'O arquivo deve ser uma imagem',
+            //status
+            'status.min' => 'O status deve ser Ativo¹ ou Inativo⁰.',
+            'status.max' => 'O status deve ser Ativo¹ ou Inativo⁰.',
         ];
     }
 }

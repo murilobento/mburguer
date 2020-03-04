@@ -67,12 +67,11 @@
         <a class="image-popup-vertical-fit" href="{{ url("/storage/{$burguer->imagem}") }}"
             title="{{ $burguer->nome }}">
             <img class="img-responsive" src="{{ url("/storage/{$burguer->imagem}") }}" width="145">
-        </a>
-        
-    </div>
-    
+        </a>        
+    </div>    
 </div>
-
+@endif
+@if(Request::is('*/edit'))
 <div class="button-items">
     <button type="submit" class="btn btn-success btn-lg">Editar</button>
     <a href="{{ route('burguer.index')  }}" type="button" class="btn btn-danger btn-lg ">Cancelar</a>

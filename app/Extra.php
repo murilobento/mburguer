@@ -8,5 +8,5 @@ class Extra extends Model
 {
     protected $table = 'extras';
 
-    protected $fillable = ['nome', 'desc', 'tipo', 'preco', 'imagem'];
+    protected $fillable = ['nome', 'desc', 'tipo', 'preco', 'imagem', 'status'];
 }

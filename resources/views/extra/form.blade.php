@@ -2,6 +2,24 @@
     <div class="col-md-12">
         <div class="input-group mt-1">
             <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-normal">Status</span>
+            </div>
+            <select class="custom-select" name="status" id="inputGroupSelect04">
+                @if(Request::is('*/edit'))
+                <option @if($extra->status == "Ativo") selected @endif value="1">Ativo</option>
+                <option @if($extra->status == "Inativo") selected @endif value="0">Inativo</option>
+                @else
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>                
+                @endif
+            </select>
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-12">
+        <div class="input-group mt-1">
+            <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-normal">Tipo</span>
             </div>
             <select class="custom-select" name="tipo" id="inputGroupSelect04">
@@ -68,15 +86,18 @@
         </div>
     </div>
 </div>
-@if(Request::is('*/edit'))
+@if($extra->imagem ?? '')
+<i>Clique sobre a imagem para ampliar.</i>
 <div class="form-group row">
     <div class="col-sm-12 ml-auto input-group mt-1">
-        <a class="image-popup-vertical-fit" href="/uploads/extras/{{ $extra->imagem }}"
+        <a class="image-popup-vertical-fit" href="{{ url("/storage/{$extra->imagem}") }}"
             title="{{ $extra->nome }}">
-            <img class="img-responsive" src="/uploads/extras/{{ $extra->imagem }}" width="145">
-        </a>
-    </div>
+            <img class="img-responsive" src="{{ url("/storage/{$extra->imagem}") }}" width="145">
+        </a>        
+    </div>    
 </div>
+@endif
+@if(Request::is('*/edit'))
 <div class="button-items">
     <button type="submit" class="btn btn-success btn-lg">Editar</button>
     <a href="{{ route('extra.index')  }}" type="button" class="btn btn-danger btn-lg ">Cancelar</a>

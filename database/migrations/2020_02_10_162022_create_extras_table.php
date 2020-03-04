@@ -20,6 +20,7 @@ class CreateExtrasTable extends Migration
             $table->text('tipo');
             $table->double('preco', 10, 2);
             $table->string('imagem')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
