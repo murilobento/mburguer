@@ -107,7 +107,7 @@ class BurguerController extends Controller
      */
     public function update(StoreUpdateBurguerRequest $request, $id)
     {
-        if(!$burguer = $this->repository->find($id)){
+        if (!$burguer = $this->repository->find($id)){
             return redirect()->back();
         }
         $data = $request->all();      
