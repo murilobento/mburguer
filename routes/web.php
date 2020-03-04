@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/burguer/inactive', 'BurguerController@inactive')->name('burguer.inactive');
+    Route::get('/extra/inactive', 'ExtraController@inactive')->name('extra.inactive');
     
 });
 Route::resource('burguer', 'BurguerController');

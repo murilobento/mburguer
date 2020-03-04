@@ -18,6 +18,7 @@
 
                 <!--add msg sucesso-->
                 @include('layouts.sucesso')
+                
                 @if(Request::is('*/inactive'))
                 <h5 class="header-title">Listagem de Burguers Inativos</h5>
                 <p class="text-muted">Cadastrar um novo burguer, <a href="{{ route('burguer.create') }}">clique aqui.</a> </p>

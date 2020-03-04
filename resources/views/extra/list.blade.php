@@ -19,8 +19,26 @@
                 <!--add msg sucesso-->
                 @include('layouts.sucesso')
 
-                <h5 class="header-title">Listagem de Extras</h5>
-                <p class="text-muted">Para cadastrar um novo extra, <a href="{{ route('extra.create') }}">clique aqui. </a> </p>                
+                @if(Request::is('*/inactive'))
+                <h5 class="header-title">Listagem de Extras Inativos</h5>
+                <p class="text-muted">Cadastrar um novo extra, <a href="{{ route('extra.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver os extra ativos, <a href="{{ route('extra.index') }}">clique aqui. </a></p>
+                @else
+                <h5 class="header-title">Listagem de Extras Ativos</h5>
+                <p class="text-muted">Cadastrar um novo extra, <a href="{{ route('extra.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver os extra inativos, <a href="{{ route('extra.inactive') }}">clique aqui.</a> </p>
+                @endif
+
+                @if (count($extras) === 0)
+                <div class="">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <h4 class="alert-heading font-18">Nenhum registro foi encontrado.</h4>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                    </div>
+                </div>
+                @else                
+                
                 <div class="table-rep-plugin">
                     <div class="table-responsive b-0" data-pattern="priority-columns">
                         <table id="tech-companies-1" class="table  table-striped">
@@ -89,7 +107,7 @@
                         {!! $extras->links() !!}
                     </div>
                 </div>
-
+                @endif
             </div>
         </div>
     </div>
