@@ -1,6 +1,6 @@
 @extends('layouts.app3')
 
-@section('title', 'Lista de Extras')
+@section('title', 'Lista de Produtos')
 
 @section('content')
 <div class="row">

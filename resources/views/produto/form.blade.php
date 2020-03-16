@@ -28,7 +28,6 @@
                 <option @if($produto->tipo == "Adicional") selected @endif>Adicional</option>
                 <option @if($produto->tipo == "Burguer") selected @endif>Burguer</option>
                 <option @if($produto->tipo == "Cerveja") selected @endif >Cerveja</option>
-                <option @if($produto->tipo == "Drink") selected @endif>Drink</option>
                 <option @if($produto->tipo == "Refrigerante") selected @endif>Refrigerante</option>
                 <option @if($produto->tipo == "Suco") selected @endif>Suco</option>
                 @else
@@ -36,7 +35,6 @@
                 <option>Adicional</option>
                 <option>Burguer</option>
                 <option>Cerveja</option>
-                <option>Drink</option>
                 <option>Refrigerante</option>
                 <option>Suco</option>
                 @endif

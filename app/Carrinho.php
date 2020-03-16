@@ -9,12 +9,8 @@ class Carrinho extends Model
 {
     protected $table = 'carrinho';
 
-    protected $fillable = ['nome', 'desc', 'preco', 'imagem', 'status'];
+    public static function produtos(){       
+        return Produto::where('status', 1)->orderBy('tipo')->get();
+    }
 
-    public static function burguers(){
-    	return Burguer::where('status', 1)->orderBy('nome')->get();
-    }
-    public static function extras(){
-    	return Extra::all();
-    }
 }
