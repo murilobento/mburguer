@@ -18,6 +18,7 @@
 
                 <!--add msg sucesso-->
                 @include('layouts.sucesso')
+                @include('layouts.alerta')
 
                 @if(Request::is('*/inactive'))
                 <h5 class="header-title">Listagem de Produtos Inativos</h5>
@@ -137,7 +138,12 @@
         $(".alert-success").fadeTo(300, 0).slideUp(300, function () {
             $(this).remove();
         });
-    }, 3000);            
+    }, 3000);     
+    window.setTimeout(function () {
+        $(".alert-warning").fadeTo(300, 0).slideUp(300, function () {
+            $(this).remove();
+        });
+    }, 3000);        
 </script>
 
 @endpush

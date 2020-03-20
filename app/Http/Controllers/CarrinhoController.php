@@ -20,11 +20,8 @@ class CarrinhoController extends Controller
     public function index()
     {
 
-        $registros = Produto::where([
-            'status' => 1
-            ])->get();
-
-        return view('carrinho.index', compact('registros'));
+        $produtos = Produto::where('status', 1)->get();
+        return view('carrinho.index2', ['produtos' => $produtos]);
     }
 
     public function adicionar()
