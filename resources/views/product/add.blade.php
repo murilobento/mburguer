@@ -20,27 +20,27 @@
                         @include('layouts.alerts')
 
                         @if(Request::is('*/edit'))
-                        @section('title', 'Edição de Extras')
+                        @section('title', 'Edição de Produtos')
 
-                        <h4 class="mt-0 header-title">Edição de Extras</h4>
-                        <p class="text-muted m-b-30">Ver lista de extras cadastrados <a
-                                href="{{ route('extra.index') }}">clique aqui</a>.</p>
-                        <form action="{{ route('extra.update', $extra->id)  }}" method="post"
+                        <h4 class="mt-0 header-title">Edição de Produtos</h4>
+                        <p class="text-muted m-b-30">Ver produtos cadastrados <a
+                                href="{{ route('product.index') }}">clique aqui</a>.</p>
+                        <form action="{{ route('product.update', $product->id)  }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            @include('extra.form')
+                            @include('product.form')
                         </form>
 
                         @else
-                        @section('title', 'Cadastro de Extra')
+                        @section('title', 'Cadastro de Produto')
 
-                        <h4 class="mt-0 header-title">Cadastro de Extra</h4>
-                        <p class="text-muted m-b-30">Ver lista de extras cadastrados <a
-                                href="{{ route('extra.index') }}">clique aqui</a>.</p>
-                        <form action="{{ route('extra.store') }}" method="post" enctype="multipart/form-data">
+                        <h4 class="mt-0 header-title">Cadastro de Produto</h4>
+                        <p class="text-muted m-b-30">Ver produtos cadastrados <a
+                                href="{{ route('product.index') }}">clique aqui</a>.</p>
+                        <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            @include('extra.form')
+                            @include('product.form')
                         </form>
                         @endif
                     </div>

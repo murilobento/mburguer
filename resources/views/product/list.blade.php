@@ -22,15 +22,15 @@
 
                 @if(Request::is('*/inactive'))
                 <h5 class="header-title">Listagem de Produtos Inativos</h5>
-                <p class="text-muted">Cadastrar um novo produto, <a href="{{ route('produto.create') }}">clique aqui.</a> </p>
-                <p class="text-muted">Ver produtos ativos, <a href="{{ route('produto.index') }}">clique aqui. </a></p>
+                <p class="text-muted">Cadastrar um novo produto, <a href="{{ route('product.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver produtos ativos, <a href="{{ route('product.index') }}">clique aqui. </a></p>
                 @else
                 <h5 class="header-title">Listagem de Produtos Ativos</h5>
-                <p class="text-muted">Cadastrar um novo produto, <a href="{{ route('produto.create') }}">clique aqui.</a> </p>
-                <p class="text-muted">Ver produtos inativos, <a href="{{ route('produto.inactive') }}">clique aqui.</a> </p>
+                <p class="text-muted">Cadastrar um novo produto, <a href="{{ route('product.create') }}">clique aqui.</a> </p>
+                <p class="text-muted">Ver produtos inativos, <a href="{{ route('product.inactive') }}">clique aqui.</a> </p>
                 @endif
 
-                @if (count($produtos) === 0)
+                @if (count($products) === 0)
                 <div class="">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <h4 class="alert-heading font-18">Nenhum registro foi encontrado.</h4>
@@ -53,26 +53,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($produtos as $produto)
+                                @foreach ($products as $product)
                                 <tr>
                                     
-                                    <td><a href="{{ route('produto.edit', $produto->id) }}">
-                                            {{ $produto->nome }} 
+                                    <td><a href="{{ route('product.edit', $product->id) }}">
+                                            {{ $product->name }} 
                                         </a>
                                     </td>
-                                    <td>{{ $produto->tipo }}</td>
-                                    <td>{{ $produto->preco }}</td>
+                                    <td>{{ $product->type }}</td>
+                                    <td>{{ $product->price }}</td>
                                     <td>
-                                        <a class="btn btn-success" href="{{ route('produto.edit', $produto->id) }}"
+                                        <a class="btn btn-success" href="{{ route('product.edit', $product->id) }}"
                                             role="button"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="javascript:;" data-toggle="modal"
-                                            onclick="deleteData({{$produto->id}})" data-target="#DeleteModal"
+                                            onclick="deleteData({{$product->id}})" data-target="#DeleteModal"
                                             class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i> </a>
                                         <div id="DeleteModal" class="modal fade " tabindex="-1" role="dialog"
                                             aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
-                                                <form action="{{ route('produto.destroy', $produto->id) }}"
+                                                <form action="{{ route('product.destroy', $product->id) }}"
                                                     id="deleteForm" method="post">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-danger">
@@ -105,7 +105,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {!! $produtos->links() !!}
+                        {!! $products->links() !!}
                     </div>
                 </div>
                 @endif
@@ -121,7 +121,7 @@
     function deleteData(id)
     {
         var id = id;
-        var url = '{{ route("produto.destroy", ":id") }}';
+        var url = '{{ route("product.destroy", ":id") }}';
         url = url.replace(':id', id);
         $("#deleteForm").attr('action', url);
     }

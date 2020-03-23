@@ -21,15 +21,11 @@ Route::middleware('auth')->group(function () {
         return redirect('login');
     });
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/burguer/inactive', 'BurguerController@inactive')->name('burguer.inactive');
-    Route::get('/extra/inactive', 'ExtraController@inactive')->name('extra.inactive');
-    Route::get('/produto/inactive', 'ProdutoController@inactive')->name('produto.inactive');
+    Route::get('/product/inactive', 'ProductController@inactive')->name('product.inactive');
     
 });
-Route::resource('burguer', 'BurguerController');
-Route::resource('extra', 'ExtraController');
-Route::resource('produto', 'ProdutoController');
-Route::resource('carrinho', 'CarrinhoController');
+Route::resource('product', 'ProductController');
+Route::resource('cart', 'CartController');
 
 
 Auth::routes();

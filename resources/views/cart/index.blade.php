@@ -19,20 +19,20 @@
         <!-- end page title end breadcrumb -->
 
         <div class="row">
-            @foreach ($produtos as $produto)
+            @foreach ($products as $product)
 
             
             <div class="col-md-6 col-lg-6 col-xl-3">
 
                 <!-- Simple card -->
                 <div class="card m-b-30">
-                    <form action="{{ route('produto.store') }}" method="post" id="carrinhoForm">
+                    <form action="{{ route('product.store') }}" method="post" id="cartForm">
                     @csrf
-                    @if ($produto->imagem)
-                    <a class="image-popup-vertical-fit" href="{{ url("/storage/{$produto->imagem}") }}"
-                        title="{{ $produto->nome }}">
+                    @if ($product->image)
+                    <a class="image-popup-vertical-fit" href="{{ url("/storage/{$product->image}") }}"
+                        title="{{ $product->name }}">
                         <img class="card-img-top img-fluid img-responsive"
-                            src="{{ url("/storage/{$produto->imagem}") }}" alt="{{ $produto->nome }}">
+                            src="{{ url("/storage/{$product->image}") }}" alt="{{ $product->name }}">
                     </a>
                     @else
                     <a class="image-popup-vertical-fit"
@@ -42,45 +42,45 @@
                     </a>
                     @endif
                     <div class="card-body">
-                        <h4 class="card-title font-16 mt-0">{{ $produto->nome }} (R$ {{ number_format($produto->preco, 2) }})</h4>
-                        @if($produto->tipo === "Burguer")<h4 class="badge badge-pill badge-primary font-12 mt-0">{{ $produto->tipo }}</h4>
-                        @elseif($produto->tipo === "Cerveja")<h4 class="badge badge-pill badge-danger font-12 mt-0">{{ $produto->tipo }}</h4>
-                        @elseif($produto->tipo === "Suco")<h4 class="badge badge-pill badge-success font-12 mt-0">{{ $produto->tipo }}</h4>
-                        @elseif($produto->tipo === "Acompanhamento")<h4 class="badge badge-pill badge-warning font-12 mt-0">{{ $produto->tipo }}</h4>
-                        @elseif($produto->tipo === "Adicional")<h4 class="badge badge-pill badge-info font-12 mt-0">{{ $produto->tipo }}</h4>                        
-                        @elseif($produto->tipo === "Refrigerante")<h4 class="badge badge-pill badge-default font-12 mt-0">{{ $produto->tipo }}</h4>                        
+                        <h4 class="card-title font-16 mt-0">{{ $product->nome }} (R$ {{ number_format($product->preco, 2) }})</h4>
+                        @if($product->type === "Burguer")<h4 class="badge badge-pill badge-primary font-12 mt-0">{{ $product->type }}</h4>
+                        @elseif($product->type === "Cerveja")<h4 class="badge badge-pill badge-danger font-12 mt-0">{{ $product->type }}</h4>
+                        @elseif($product->type === "Suco")<h4 class="badge badge-pill badge-success font-12 mt-0">{{ $product->type }}</h4>
+                        @elseif($product->type === "Acompanhamento")<h4 class="badge badge-pill badge-warning font-12 mt-0">{{ $product->type }}</h4>
+                        @elseif($product->type === "Adicional")<h4 class="badge badge-pill badge-info font-12 mt-0">{{ $product->type }}</h4>                        
+                        @elseif($product->type === "Refrigerante")<h4 class="badge badge-pill badge-default font-12 mt-0">{{ $product->type }}</h4>                        
                         @endif
                         <p class="card-text font-12"><a href="#" type="button" data-toggle="modal"
-                                data-animation="bounce" data-target="#modal-produto-{{ $produto->id }}">Descrição</a>
+                                data-animation="bounce" data-target="#modal-product-{{ $product->id }}">Descrição</a>
                         </p>
-                        <div class="modal fade bs-example-modal-center" id="modal-produto-{{ $produto->id }}" tabindex="-1">
+                        <div class="modal fade bs-example-modal-center" id="modal-product-{{ $product->id }}" tabindex="-1">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title font-16 mt-0" id="mySmallModalLabel">Descrição do
-                                            {{ $produto->nome }}</h5>
+                                            {{ $product->name }}</h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">                                        
                                         <textarea name="desc" class="form-control" rows="5"
-                                            disabled>{{ $produto->desc }}</textarea>
+                                            disabled>{{ $product->desc }}</textarea>
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->                    
-                        @if($produto->tipo === 'Burguer')
+                        @if($product->type === 'Burguer')
                         <button type="submit" class="btn btn-primary waves-effect waves-light" data-toggle="modal"
-                            data-animation="bounce" data-target="#modal-ponto-{{ $produto->id }}"><i
+                            data-animation="bounce" data-target="#modal-ponto-{{ $product->id }}"><i
                                 class="fa fa-shopping-cart"></i> Adicionar</button>
 
 
-                        <div class="modal fade bs-example-modal-center" id="modal-ponto-{{ $produto->id }}" tabindex="-1" role="dialog"
+                        <div class="modal fade bs-example-modal-center" id="modal-ponto-{{ $product->id }}" tabindex="-1" role="dialog"
                             aria-labelledby="mySmallModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Observações do {{ $produto->nome }}</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Observações do {{ $product->name }}</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -142,7 +142,7 @@
 <script>
      function formSubmit()
     {
-        $("#carrinhoForm").submit();
+        $("#cartForm").submit();
     }
 </script>
 @endsection

@@ -55,7 +55,7 @@
                         <li class="menu-title">Menu Principal</li>
 
                         <li>
-                            <a href="{{ route('carrinho.index') }}" class="waves-effect">
+                            <a href="{{ route('cart.index') }}" class="waves-effect">
                                 <i class="mdi mdi-cart"></i>
                                 <span> Abrir Pedido </span>
                             </a>
@@ -66,7 +66,7 @@
                                 <span> Cadastro </span> <span class="float-right"><i
                                         class="mdi mdi-chevron-right"></i></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="{{ route('produto.index') }}"><i class="mdi mdi-food"></i>  Produto</a></li>                                
+                                <li><a href="{{ route('product.index') }}"><i class="mdi mdi-food"></i>  Produto</a></li>                                
                             </ul>
                         </li>
 
